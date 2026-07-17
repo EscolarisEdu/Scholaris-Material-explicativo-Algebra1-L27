@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 27 · Polinomios: vocabulario y operaciones · Material Explicativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#132C46;
+    --turquesa:#1399BD;
+    --amarillo:#F8B93C;
+    --morado:#6862A9;
+    --verde:#82B94B;
+    --coral:#EE7057;
+    --blanco:#FFFFFF;
+    --navy-suave:#1E3D5C;
+    --gris-claro:#EAF2F7;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Montserrat',sans-serif;
+    background:var(--navy);
+    color:var(--blanco);
+    overflow:hidden;
+  }
+  h1,h2,h3,.font-titulo{font-family:'Poppins',sans-serif;}
+
+  .deck{position:relative;width:100%;height:100vh;overflow:hidden;}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    padding:26px 22px 92px;
+    opacity:0;visibility:hidden;transform:translateX(40px);
+    transition:opacity .45s ease, transform .45s ease, visibility .45s;
+    overflow-y:auto;
+  }
+  .slide.activa{opacity:1;visibility:visible;transform:translateX(0);}
+  @media (prefers-reduced-motion: reduce){
+    .slide{transition:none;}
+    *{animation:none !important;transition:none !important;}
+  }
+
+  .etiqueta{
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--amarillo);font-weight:700;font-family:'Poppins',sans-serif;
+    margin-bottom:6px;text-align:center;
+  }
+  .slide h2{font-size:1.45rem;font-weight:700;text-align:center;line-height:1.25;margin-bottom:4px;}
+  .subtitulo{font-size:.9rem;color:#BFD7E6;text-align:center;max-width:640px;margin-bottom:16px;line-height:1.5;}
+
+  .contenido{width:100%;max-width:720px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+
+  /* ---------- Portada ---------- */
+  .portada-logo{
+    font-family:'Poppins',sans-serif;font-weight:800;font-size:.95rem;
+    letter-spacing:.22em;color:var(--turquesa);text-transform:uppercase;margin-bottom:18px;
+  }
+  .portada h1{font-size:2rem;font-weight:800;text-align:center;line-height:1.2;max-width:640px;}
+  .portada h1 span{color:var(--amarillo);}
+  .portada-chip{
+    background:var(--navy-suave);border:1px solid rgba(255,255,255,.15);
+    border-radius:999px;padding:8px 18px;font-size:.8rem;font-weight:600;color:#CFE3F0;
+  }
+  .escena-familias{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;}
+  .personaje{
+    width:96px;padding:14px 8px 12px;border-radius:18px;text-align:center;
+    font-family:'Poppins',sans-serif;font-weight:700;
+    animation:flotar 3.2s ease-in-out infinite;
+  }
+  .personaje .cara{font-size:1.5rem;display:block;margin-bottom:4px;}
+  .personaje .nombre{font-size:1.05rem;}
+  .personaje:nth-child(2){animation-delay:.4s;}
+  .personaje:nth-child(3){animation-delay:.8s;}
+  .personaje:nth-child(4){animation-delay:1.2s;}
+  @keyframes flotar{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .p-turquesa{background:var(--turquesa);}
+  .p-morado{background:var(--morado);}
+  .p-verde{background:var(--verde);color:var(--navy);}
+  .p-coral{background:var(--coral);}
+
+  .boton{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:.95rem;
+    background:var(--amarillo);color:var(--navy);border:none;border-radius:999px;
+    padding:13px 32px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 4px 0 rgba(0,0,0,.25);
+  }
+  .boton:hover{transform:translateY(-2px);}
+  .boton:focus-visible{outline:3px solid var(--blanco);outline-offset:3px;}
+  .boton.secundario{background:var(--turquesa);color:var(--blanco);}
+
+  /* ---------- Tarjetas genéricas ---------- */
+  .tarjeta{
+    background:var(--navy-suave);border:1px solid rgba(255,255,255,.12);
+    border-radius:18px;padding:18px 20px;width:100%;line-height:1.55;font-size:.92rem;
+  }
+  .tarjeta strong{color:var(--amarillo);}
+  .tarjeta.definicion{border-left:6px solid var(--turquesa);}
+
+  /* ---------- Slide 2: anatomía del término ---------- */
+  .termino-grande{
+    display:flex;align-items:flex-end;justify-content:center;gap:2px;
+    font-family:'Poppins',sans-serif;font-weight:800;margin:8px 0 4px;user-select:none;
+  }
+  .parte{
+    cursor:pointer;border:none;background:transparent;color:var(--blanco);
+    font-family:'Poppins',sans-serif;font-weight:800;line-height:1;
+    padding:6px 8px;border-radius:12px;transition:transform .15s ease, background .15s ease;
+  }
+  .parte:hover{transform:scale(1.08);}
+  .parte:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px;}
+  .parte.coef{font-size:3.4rem;color:var(--amarillo);}
+  .parte.vari{font-size:3.4rem;color:var(--turquesa);}
+  .parte.expo{font-size:2rem;color:var(--coral);transform:translateY(-22px);}
+  .parte.expo:hover{transform:translateY(-22px) scale(1.12);}
+  .parte.seleccionada{background:rgba(255,255,255,.14);}
+  .panel-parte{
+    min-height:96px;width:100%;background:var(--navy-suave);
+    border:1px dashed rgba(255,255,255,.25);border-radius:16px;
+    padding:14px 18px;font-size:.9rem;line-height:1.55;
+    display:flex;align-items:center;gap:12px;
+  }
+  .panel-parte .icono{
+    flex:0 0 44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-family:'Poppins',sans-serif;font-weight:800;font-size:1.2rem;color:var(--navy);
+  }
+
+  /* ---------- Slide 3: familias (clasificar) ---------- */
+  .casas{display:flex;gap:12px;width:100%;justify-content:center;flex-wrap:wrap;}
+  .casa{
+    flex:1 1 150px;max-width:220px;border-radius:16px;padding:12px 10px 14px;
+    text-align:center;border:3px solid transparent;transition:border .2s ease, transform .2s ease;
+    background:var(--navy-suave);
+  }
+  .casa .techo{font-size:1.4rem;}
+  .casa h3{font-size:.95rem;margin:2px 0 8px;}
+  .casa.c-turquesa h3{color:var(--turquesa);}
+  .casa.c-morado h3{color:#B9B4E8;}
+  .casa.c-verde h3{color:var(--verde);}
+  .casa.resaltada{border-color:var(--amarillo);transform:scale(1.03);}
+  .miembros{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:38px;}
+  .miembro{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;
+    background:rgba(255,255,255,.12);border-radius:999px;padding:5px 12px;
+    animation:aparecer .35s ease;
+  }
+  @keyframes aparecer{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:scale(1);}}
+  .banca{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%;}
+  .ficha-termino{
+    font-family:'Poppins',sans-serif;font-weight:800;font-size:1.05rem;
+    background:var(--blanco);color:var(--navy);border:none;border-radius:14px;
+    padding:12px 18px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.3);
+    transition:transform .15s ease, opacity .3s ease;
+  }
+  .ficha-termino:hover{transform:translateY(-3px);}
+  .ficha-termino:focus-visible{outline:3px solid var(--amarillo);outline-offset:3px;}
+  .ficha-termino.usada{opacity:0;pointer-events:none;transform:scale(.5);}
+  .opciones-casa{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+  .opciones-casa button{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:.82rem;
+    border:2px solid var(--turquesa);background:transparent;color:var(--blanco);
+    border-radius:999px;padding:8px 16px;cursor:pointer;transition:background .15s ease;
+  }
+  .opciones-casa button:hover{background:rgba(19,153,189,.25);}
+  .opciones-casa button:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px;}
+  .mensaje{
+    min-height:26px;font-size:.88rem;font-weight:600;text-align:center;font-family:'Poppins',sans-serif;
+  }
+  .mensaje.ok{color:var(--verde);}
+  .mensaje.error{color:var(--coral);}
+  .seleccion-actual{
+    font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:var(--amarillo);
+    min-height:34px;text-align:center;
+  }
+
+  /* ---------- Slide 4: vocabulario ---------- */
+  .vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;width:100%;}
+  .vocab-card{
+    background:var(--navy-suave);border-radius:16px;padding:16px;cursor:pointer;border:2px solid transparent;
+    transition:transform .2s ease, border .2s ease;text-align:center;color:var(--blanco);
+    font-family:'Montserrat',sans-serif;
+  }
+  .vocab-card:hover{transform:translateY(-4px);}
+  .vocab-card:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px;}
+  .vocab-card .frente{font-family:'Poppins',sans-serif;font-weight:700;font-size:1rem;}
+  .vocab-card .num{
+    display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;
+    font-family:'Poppins',sans-serif;font-weight:800;margin-bottom:8px;color:var(--navy);
+  }
+  .vocab-card .detalle{display:none;font-size:.84rem;line-height:1.5;margin-top:8px;color:#D7E7F2;}
+  .vocab-card.abierta{border-color:var(--amarillo);}
+  .vocab-card.abierta .detalle{display:block;animation:aparecer .3s ease;}
+  .vocab-card .ejemplo{font-family:'Poppins',sans-serif;font-weight:700;color:var(--amarillo);}
+
+  /* ---------- Slides 5-6: pasos ---------- */
+  .paso{
+    width:100%;background:var(--navy-suave);border-radius:16px;padding:14px 18px;
+    border-left:6px solid var(--turquesa);opacity:.28;transition:opacity .35s ease, border-color .35s ease;
+    font-size:.92rem;line-height:1.55;
+  }
+  .paso.visible{opacity:1;}
+  .paso .num-paso{
+    font-family:'Poppins',sans-serif;font-weight:800;color:var(--turquesa);
+    font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px;
+  }
+  .paso .mate{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:1.05rem;display:block;margin-top:6px;
+    color:var(--blanco);overflow-x:auto;
+  }
+  .paso .mate .ft{color:var(--turquesa);}
+  .paso .mate .fx{color:var(--amarillo);}
+  .paso .mate .fc{color:#9FE38B;}
+  .paso.final{border-left-color:var(--verde);}
+  .paso.alerta{border-left-color:var(--coral);}
+  .paso .alerta-txt{color:var(--coral);font-weight:700;}
+
+  /* ---------- Slide 7: quiz ---------- */
+  .quiz-pregunta{
+    width:100%;background:var(--navy-suave);border-radius:18px;padding:18px 20px;
+  }
+  .quiz-pregunta h3{font-size:.98rem;margin-bottom:12px;line-height:1.45;}
+  .quiz-pregunta h3 .qmate{color:var(--amarillo);font-family:'Poppins',sans-serif;}
+  .quiz-opciones{display:flex;flex-direction:column;gap:8px;}
+  .quiz-opciones button{
+    text-align:left;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.9rem;
+    background:rgba(255,255,255,.08);color:var(--blanco);border:2px solid transparent;
+    border-radius:12px;padding:11px 14px;cursor:pointer;transition:background .15s ease, border .15s ease;
+  }
+  .quiz-opciones button:hover{background:rgba(255,255,255,.16);}
+  .quiz-opciones button:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px;}
+  .quiz-opciones button.correcta{background:rgba(130,185,75,.3);border-color:var(--verde);}
+  .quiz-opciones button.incorrecta{background:rgba(238,112,87,.3);border-color:var(--coral);}
+  .quiz-feedback{margin-top:10px;font-size:.85rem;font-weight:600;min-height:22px;line-height:1.5;}
+  .quiz-feedback.ok{color:var(--verde);}
+  .quiz-feedback.error{color:var(--coral);}
+
+  /* ---------- Cierre ---------- */
+  .lista-cierre{width:100%;display:flex;flex-direction:column;gap:10px;}
+  .item-cierre{
+    display:flex;gap:12px;align-items:flex-start;background:var(--navy-suave);
+    border-radius:14px;padding:13px 16px;font-size:.9rem;line-height:1.5;
+  }
+  .item-cierre .check{
+    flex:0 0 28px;height:28px;border-radius:50%;background:var(--verde);color:var(--navy);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Poppins',sans-serif;
+  }
+  .reto{
+    width:100%;background:linear-gradient(135deg,var(--morado),var(--turquesa));
+    border-radius:18px;padding:18px 20px;font-size:.92rem;line-height:1.55;
+  }
+  .reto h3{color:var(--amarillo);font-size:1rem;margin-bottom:6px;}
+
+  /* ---------- Navegación ---------- */
+  .navegacion{
+    position:fixed;bottom:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;background:rgba(19,44,70,.92);backdrop-filter:blur(6px);
+    border-top:1px solid rgba(255,255,255,.1);z-index:50;
+  }
+  .nav-btn{
+    font-family:'Poppins',sans-serif;font-weight:700;font-size:.85rem;
+    background:var(--turquesa);color:var(--blanco);border:none;border-radius:999px;
+    padding:10px 22px;cursor:pointer;transition:opacity .2s ease, transform .15s ease;
+  }
+  .nav-btn:hover{transform:translateY(-2px);}
+  .nav-btn:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px;}
+  .nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+  .puntos{display:flex;gap:8px;}
+  .punto{
+    width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.25);
+    border:none;cursor:pointer;padding:0;transition:background .2s ease, transform .2s ease;
+  }
+  .punto:focus-visible{outline:2px solid var(--amarillo);outline-offset:2px;}
+  .punto.activo{background:var(--amarillo);transform:scale(1.3);}
+
+  @media (max-width:520px){
+    .portada h1{font-size:1.55rem;}
+    .slide h2{font-size:1.25rem;}
+    .parte.coef,.parte.vari{font-size:2.6rem;}
+    .parte.expo{font-size:1.5rem;transform:translateY(-16px);}
+    .parte.expo:hover{transform:translateY(-16px) scale(1.1);}
+    .puntos{gap:6px;}
+    .nav-btn{padding:9px 16px;font-size:.78rem;}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- ============ SLIDE 1 · PORTADA ============ -->
+  <section class="slide activa portada" aria-label="Portada">
+    <div class="contenido" style="justify-content:center;flex:1;">
+      <div class="portada-logo">eScholaris · Algebra 1</div>
+      <div class="etiqueta">Lección 27 · Material Explicativo</div>
+      <h1>Polinomios: <span>vocabulario y operaciones</span></h1>
+      <div class="escena-familias" aria-hidden="true">
+        <div class="personaje p-turquesa"><span class="cara">😀</span><span class="nombre">3x²</span></div>
+        <div class="personaje p-morado"><span class="cara">😄</span><span class="nombre">5x</span></div>
+        <div class="personaje p-verde"><span class="cara">🙂</span><span class="nombre">−1</span></div>
+        <div class="personaje p-coral"><span class="cara">😎</span><span class="nombre">2x²</span></div>
+      </div>
+      <p class="subtitulo">Cada término es un personaje que pertenece a una <strong style="color:var(--amarillo);">familia</strong>. Hoy aprenderás a reconocer a cada familia y a reunir a sus miembros para sumar y restar polinomios.</p>
+      <div class="portada-chip">⏱️ 10 minutos · toca, explora y descubre</div>
+      <button class="boton" onclick="irA(1)">Comenzar →</button>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2 · ANATOMÍA DE UN TÉRMINO ============ -->
+  <section class="slide" aria-label="Anatomía de un término">
+    <div class="contenido">
+      <div class="etiqueta">Paso 1 · Conoce al personaje</div>
+      <h2>¿De qué está hecho un término?</h2>
+      <p class="subtitulo">Toca cada parte del término para descubrir su función. Un término es como un personaje con tres rasgos que lo identifican.</p>
+      <div class="termino-grande" role="group" aria-label="Término 3 x al cuadrado, toca cada parte">
+        <button class="parte coef" onclick="verParte('coef',this)" aria-label="Coeficiente 3">3</button>
+        <button class="parte vari" onclick="verParte('vari',this)" aria-label="Variable x">x</button>
+        <button class="parte expo" onclick="verParte('expo',this)" aria-label="Exponente 2">2</button>
+      </div>
+      <div class="panel-parte" id="panelParte" aria-live="polite">
+        <div class="icono" style="background:var(--amarillo);">👆</div>
+        <div>Toca el <strong style="color:var(--amarillo);">3</strong>, la <strong style="color:var(--turquesa);">x</strong> o el <strong style="color:var(--coral);">2</strong> para conocer cada parte.</div>
+      </div>
+      <div class="tarjeta definicion">
+        <strong>Polinomio:</strong> es una suma de términos donde cada término tiene un coeficiente y variables con exponentes <strong>enteros no negativos</strong> (0, 1, 2, 3…). Por eso <em>3x² + 5x − 1</em> sí es un polinomio, pero una expresión con x⁻¹ o √x no lo es.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3 · FAMILIAS DE TÉRMINOS ============ -->
+  <section class="slide" aria-label="Familias de términos semejantes">
+    <div class="contenido">
+      <div class="etiqueta">Paso 2 · La idea clave</div>
+      <h2>Cada término pertenece a una familia</h2>
+      <p class="subtitulo">Dos términos son <strong style="color:var(--amarillo);">semejantes</strong> si tienen la <strong>misma variable con el mismo exponente</strong>. El coeficiente puede ser distinto: son de la misma familia aunque tengan diferente "tamaño". Toca un término y luego elige su casa.</p>
+
+      <div class="seleccion-actual" id="terminoElegido" aria-live="polite">Elige un término 👇</div>
+
+      <div class="banca" id="banca">
+        <button class="ficha-termino" data-fam="x2" onclick="elegirTermino(this,'3x²')">3x²</button>
+        <button class="ficha-termino" data-fam="x1" onclick="elegirTermino(this,'5x')">5x</button>
+        <button class="ficha-termino" data-fam="k" onclick="elegirTermino(this,'−1')">−1</button>
+        <button class="ficha-termino" data-fam="x2" onclick="elegirTermino(this,'2x²')">2x²</button>
+        <button class="ficha-termino" data-fam="x1" onclick="elegirTermino(this,'−x')">−x</button>
+        <button class="ficha-termino" data-fam="k" onclick="elegirTermino(this,'7')">7</button>
+      </div>
+
+      <div class="opciones-casa" id="opcionesCasa" style="visibility:hidden;">
+        <button onclick="asignarCasa('x2')">🏠 Familia x²</button>
+        <button onclick="asignarCasa('x1')">🏠 Familia x</button>
+        <button onclick="asignarCasa('k')">🏠 Familia constante</button>
+      </div>
+      <div class="mensaje" id="mensajeFamilia" aria-live="polite"></div>
+
+      <div class="casas">
+        <div class="casa c-turquesa" id="casa-x2">
+          <div class="techo">🏠</div><h3>Familia x²</h3>
+          <div class="miembros" id="miembros-x2"></div>
+        </div>
+        <div class="casa c-morado" id="casa-x1">
+          <div class="techo">🏠</div><h3>Familia x</h3>
+          <div class="miembros" id="miembros-x1"></div>
+        </div>
+        <div class="casa c-verde" id="casa-k">
+          <div class="techo">🏠</div><h3>Familia constante</h3>
+          <div class="miembros" id="miembros-k"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 4 · VOCABULARIO ============ -->
+  <section class="slide" aria-label="Vocabulario de polinomios">
+    <div class="contenido">
+      <div class="etiqueta">Paso 3 · Vocabulario</div>
+      <h2>Nombres según el número de términos</h2>
+      <p class="subtitulo">Los polinomios reciben un nombre según cuántos términos tienen y un <strong style="color:var(--amarillo);">grado</strong> según su mayor exponente. Toca cada tarjeta para ver la definición y un ejemplo.</p>
+      <div class="vocab-grid">
+        <button class="vocab-card" onclick="voltear(this)">
+          <span class="num" style="background:var(--turquesa);">1</span>
+          <div class="frente">Monomio</div>
+          <div class="detalle">Tiene <strong>un solo término</strong>.<br><span class="ejemplo">Ejemplo: 4x³</span></div>
+        </button>
+        <button class="vocab-card" onclick="voltear(this)">
+          <span class="num" style="background:var(--amarillo);">2</span>
+          <div class="frente">Binomio</div>
+          <div class="detalle">Tiene <strong>dos términos</strong>.<br><span class="ejemplo">Ejemplo: x² − 9</span></div>
+        </button>
+        <button class="vocab-card" onclick="voltear(this)">
+          <span class="num" style="background:var(--verde);">3</span>
+          <div class="frente">Trinomio</div>
+          <div class="detalle">Tiene <strong>tres términos</strong>.<br><span class="ejemplo">Ejemplo: 3x² + 5x − 1</span></div>
+        </button>
+        <button class="vocab-card" onclick="voltear(this)">
+          <span class="num" style="background:var(--coral);">°</span>
+          <div class="frente">Grado</div>
+          <div class="detalle">Es el <strong>mayor exponente</strong> de la variable.<br><span class="ejemplo">El grado de 3x² + 5x − 1 es 2</span></div>
+        </button>
+      </div>
+      <div class="tarjeta">
+        💡 <strong>Tip de lectura matemática:</strong> antes de operar, identifica cuántos términos hay, cuál es el grado y qué familias de términos semejantes existen. Esa lectura previa evita la mayoría de los errores.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 · SUMA PASO A PASO ============ -->
+  <section class="slide" aria-label="Suma de polinomios paso a paso">
+    <div class="contenido">
+      <div class="etiqueta">Paso 4 · Suma de polinomios</div>
+      <h2>Reunimos a cada familia</h2>
+      <p class="subtitulo">Sumar polinomios es <strong style="color:var(--amarillo);">reunir a los miembros de cada familia</strong> y combinar sus coeficientes. Presiona el botón para ver cada paso.</p>
+
+      <div class="paso visible" id="suma-p0">
+        <span class="num-paso">La situación</span>
+        Queremos sumar dos trinomios:
+        <span class="mate">(<span class="ft">3x²</span> + <span class="fx">5x</span> <span class="fc">− 1</span>) + (<span class="ft">2x²</span> <span class="fx">− x</span> <span class="fc">+ 7</span>)</span>
+      </div>
+      <div class="paso" id="suma-p1">
+        <span class="num-paso">Paso 1 · Identifica las familias</span>
+        Colorea o marca los términos semejantes: la familia <strong>x²</strong>, la familia <strong>x</strong> y la familia <strong>constante</strong>.
+        <span class="mate"><span class="ft">3x² y 2x²</span> · <span class="fx">5x y −x</span> · <span class="fc">−1 y 7</span></span>
+      </div>
+      <div class="paso" id="suma-p2">
+        <span class="num-paso">Paso 2 · Reúne a cada familia</span>
+        Agrupa los términos semejantes; el orden puede cambiar gracias a la propiedad conmutativa.
+        <span class="mate">(<span class="ft">3x² + 2x²</span>) + (<span class="fx">5x − x</span>) + (<span class="fc">−1 + 7</span>)</span>
+      </div>
+      <div class="paso" id="suma-p3">
+        <span class="num-paso">Paso 3 · Combina los coeficientes</span>
+        Suma solo los coeficientes; la parte variable de cada familia <strong>no cambia</strong>: 3 + 2 = 5, 5 − 1 = 4, −1 + 7 = 6.
+        <span class="mate"><span class="ft">5x²</span> + <span class="fx">4x</span> <span class="fc">+ 6</span></span>
+      </div>
+      <div class="paso final" id="suma-p4">
+        <span class="num-paso">Verifica ✔</span>
+        Sustituye x = 1 en ambos lados: (3 + 5 − 1) + (2 − 1 + 7) = 7 + 8 = 15, y también 5 + 4 + 6 = 15. ¡El resultado tiene sentido!
+      </div>
+
+      <button class="boton secundario" id="btnSuma" onclick="siguientePasoSuma()">Ver siguiente paso</button>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6 · RESTA CON CUIDADO ============ -->
+  <section class="slide" aria-label="Resta de polinomios paso a paso">
+    <div class="contenido">
+      <div class="etiqueta">Paso 5 · Resta de polinomios</div>
+      <h2>El signo menos visita a toda la familia</h2>
+      <p class="subtitulo">Al restar, el signo menos <strong style="color:var(--coral);">cambia el signo de cada término</strong> del segundo polinomio. Este es el error más común de la lección. Míralo paso a paso.</p>
+
+      <div class="paso visible" id="resta-p0">
+        <span class="num-paso">La situación</span>
+        Ahora restamos los mismos polinomios:
+        <span class="mate">(<span class="ft">3x²</span> + <span class="fx">5x</span> <span class="fc">− 1</span>) − (<span class="ft">2x²</span> <span class="fx">− x</span> <span class="fc">+ 7</span>)</span>
+      </div>
+      <div class="paso alerta" id="resta-p1">
+        <span class="num-paso">Paso 1 · Distribuye el signo menos</span>
+        <span class="alerta-txt">⚠ Cuidado:</span> el menos afecta a <strong>los tres términos</strong> del paréntesis, no solo al primero.
+        <span class="mate">3x² + 5x − 1 <span class="alerta-txt">− 2x² + x − 7</span></span>
+      </div>
+      <div class="paso" id="resta-p2">
+        <span class="num-paso">Paso 2 · Reúne a cada familia</span>
+        <span class="mate">(<span class="ft">3x² − 2x²</span>) + (<span class="fx">5x + x</span>) + (<span class="fc">−1 − 7</span>)</span>
+      </div>
+      <div class="paso final" id="resta-p3">
+        <span class="num-paso">Paso 3 · Combina y verifica ✔</span>
+        3 − 2 = 1, 5 + 1 = 6, −1 − 7 = −8. Con x = 1: 7 − 8 = −1, y también 1 + 6 − 8 = −1. Coincide.
+        <span class="mate"><span class="ft">x²</span> + <span class="fx">6x</span> <span class="fc">− 8</span></span>
+      </div>
+
+      <button class="boton secundario" id="btnResta" onclick="siguientePasoResta()">Ver siguiente paso</button>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 7 · PRÁCTICA RÁPIDA ============ -->
+  <section class="slide" aria-label="Práctica rápida">
+    <div class="contenido">
+      <div class="etiqueta">Paso 6 · Demuestra lo aprendido</div>
+      <h2>Práctica rápida</h2>
+      <p class="subtitulo">Responde las tres preguntas. Recibirás retroalimentación inmediata.</p>
+
+      <div class="quiz-pregunta">
+        <h3>1. ¿Cómo se clasifica <span class="qmate">7x⁴ − 2x</span>?</h3>
+        <div class="quiz-opciones" data-q="1">
+          <button onclick="responder(this,false,'Cuenta los términos: hay dos, no uno.')">Monomio de grado 4</button>
+          <button onclick="responder(this,true,'¡Correcto! Dos términos = binomio, y el mayor exponente es 4.')">Binomio de grado 4</button>
+          <button onclick="responder(this,false,'Tiene dos términos, pero el grado es el mayor exponente: 4, no 1.')">Binomio de grado 1</button>
+        </div>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </div>
+
+      <div class="quiz-pregunta">
+        <h3>2. ¿Cuáles términos son de la misma familia (semejantes)?</h3>
+        <div class="quiz-opciones" data-q="2">
+          <button onclick="responder(this,false,'Tienen la misma variable, pero el exponente es distinto: no son semejantes.')">4x² y 4x</button>
+          <button onclick="responder(this,true,'¡Exacto! Misma variable y mismo exponente; el coeficiente puede ser diferente.')">−6x³ y 2x³</button>
+          <button onclick="responder(this,false,'Uno tiene variable y el otro es constante: viven en casas distintas.')">5x y 5</button>
+        </div>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </div>
+
+      <div class="quiz-pregunta">
+        <h3>3. ¿Cuál es el resultado de <span class="qmate">(4x² + x) − (x² − 3x)</span>?</h3>
+        <div class="quiz-opciones" data-q="3">
+          <button onclick="responder(this,false,'Revisa el signo: −(−3x) se convierte en +3x.')">3x² − 2x</button>
+          <button onclick="responder(this,true,'¡Muy bien! 4x² − x² = 3x² y x + 3x = 4x. Distribuiste el menos correctamente.')">3x² + 4x</button>
+          <button onclick="responder(this,false,'Cuidado: el menos también cambia el signo de x², así que 4x² − x² = 3x².')">5x² + 4x</button>
+        </div>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8 · CIERRE ============ -->
+  <section class="slide" aria-label="Cierre y mini reto">
+    <div class="contenido">
+      <div class="etiqueta">Cierre</div>
+      <h2>Lo que te llevas hoy</h2>
+      <div class="lista-cierre">
+        <div class="item-cierre"><div class="check">✓</div><div>Un <strong style="color:var(--amarillo);">polinomio</strong> es una suma de términos con exponentes enteros no negativos; se nombra por su número de términos y su grado.</div></div>
+        <div class="item-cierre"><div class="check">✓</div><div>Los <strong style="color:var(--amarillo);">términos semejantes</strong> son una familia: misma variable, mismo exponente. Solo se combinan miembros de la misma familia.</div></div>
+        <div class="item-cierre"><div class="check">✓</div><div>Para <strong style="color:var(--amarillo);">sumar</strong>, reúne cada familia y suma coeficientes. Para <strong style="color:var(--amarillo);">restar</strong>, primero distribuye el signo menos a todos los términos.</div></div>
+        <div class="item-cierre"><div class="check">✓</div><div><strong style="color:var(--amarillo);">Verifica</strong> sustituyendo un valor de x en la expresión original y en tu resultado: deben coincidir.</div></div>
+      </div>
+      <div class="reto">
+        <h3>🚀 Mini reto de arranque</h3>
+        Observa la situación de la lección: <strong>(3x² + 5x − 1) + (2x² − x + 7) = 5x² + 4x + 6</strong>. Escribe en tu cuaderno una pregunta que esta operación <strong>sí</strong> podría responder y otra que <strong>todavía no</strong> podría responder sin más información. Luego continúa con la Lectura interactiva.
+      </div>
+      <button class="boton" onclick="irA(0)">↺ Repasar desde el inicio</button>
+    </div>
+  </section>
+
+  <!-- ============ NAVEGACIÓN ============ -->
+  <nav class="navegacion" aria-label="Navegación de diapositivas">
+    <button class="nav-btn" id="btnAnterior" onclick="anterior()" disabled>← Anterior</button>
+    <div class="puntos" id="puntos" role="tablist" aria-label="Ir a diapositiva"></div>
+    <button class="nav-btn" id="btnSiguiente" onclick="siguiente()">Siguiente →</button>
+  </nav>
+</div>
+
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var actual = 0;
+  var total = slides.length;
+
+  // Puntos de navegación
+  var contPuntos = document.getElementById('puntos');
+  for (var i = 0; i < total; i++) {
+    (function(idx){
+      var p = document.createElement('button');
+      p.className = 'punto' + (idx === 0 ? ' activo' : '');
+      p.setAttribute('aria-label', 'Diapositiva ' + (idx + 1) + ' de ' + total);
+      p.addEventListener('click', function(){ irA(idx); });
+      contPuntos.appendChild(p);
+    })(i);
+  }
+
+  function irA(n){
+    if (n < 0 || n >= total) return;
+    slides[actual].classList.remove('activa');
+    actual = n;
+    slides[actual].classList.add('activa');
+    slides[actual].scrollTop = 0;
+    var puntos = contPuntos.children;
+    for (var j = 0; j < puntos.length; j++) {
+      puntos[j].classList.toggle('activo', j === actual);
+    }
+    document.getElementById('btnAnterior').disabled = (actual === 0);
+    document.getElementById('btnSiguiente').disabled = (actual === total - 1);
+  }
+  function siguiente(){ irA(actual + 1); }
+  function anterior(){ irA(actual - 1); }
+
+  // Teclado
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight') siguiente();
+    if (e.key === 'ArrowLeft') anterior();
+  });
+
+  // Swipe
+  var xInicio = null;
+  document.addEventListener('touchstart', function(e){
+    xInicio = e.changedTouches[0].clientX;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (xInicio === null) return;
+    var dx = e.changedTouches[0].clientX - xInicio;
+    if (Math.abs(dx) > 60) { if (dx < 0) siguiente(); else anterior(); }
+    xInicio = null;
+  }, {passive:true});
+
+  // ---------- Slide 2: anatomía ----------
+  var infoPartes = {
+    coef: {color:'var(--amarillo)', simbolo:'3', titulo:'Coeficiente',
+      texto:'Es el número que multiplica a la variable. Indica el "tamaño" del término: cuántas veces se toma la parte variable.'},
+    vari: {color:'var(--turquesa)', simbolo:'x', titulo:'Variable',
+      texto:'Es la letra que representa una cantidad que puede cambiar. Define a qué familia pertenece el término.'},
+    expo: {color:'var(--coral)', simbolo:'²', titulo:'Exponente',
+      texto:'Indica cuántas veces se multiplica la variable por sí misma. En un polinomio siempre es un entero no negativo, y el mayor de todos define el grado.'}
+  };
+  function verParte(clave, btn){
+    var partes = document.querySelectorAll('.parte');
+    for (var k = 0; k < partes.length; k++) partes[k].classList.remove('seleccionada');
+    btn.classList.add('seleccionada');
+    var d = infoPartes[clave];
+    document.getElementById('panelParte').innerHTML =
+      '<div class="icono" style="background:' + d.color + ';">' + d.simbolo + '</div>' +
+      '<div><strong style="color:' + d.color + ';">' + d.titulo + ':</strong> ' + d.texto + '</div>';
+  }
+
+  // ---------- Slide 3: familias ----------
+  var fichaActiva = null;
+  var familiaCorrecta = null;
+  var clasificados = 0;
+  var nombresCasa = {x2:'Familia x²', x1:'Familia x', k:'Familia constante'};
+
+  function elegirTermino(btn, texto){
+    if (btn.classList.contains('usada')) return;
+    fichaActiva = btn;
+    familiaCorrecta = btn.getAttribute('data-fam');
+    document.getElementById('terminoElegido').textContent = 'Elegiste: ' + texto + ' — ¿a qué familia pertenece?';
+    document.getElementById('opcionesCasa').style.visibility = 'visible';
+    setMensaje('', '');
+  }
+  function asignarCasa(casa){
+    if (!fichaActiva) return;
+    var casaEl = document.getElementById('casa-' + casa);
+    if (casa === familiaCorrecta) {
+      var m = document.createElement('span');
+      m.className = 'miembro';
+      m.textContent = fichaActiva.textContent;
+      document.getElementById('miembros-' + casa).appendChild(m);
+      fichaActiva.classList.add('usada');
+      casaEl.classList.add('resaltada');
+      setTimeout(function(){ casaEl.classList.remove('resaltada'); }, 700);
+      clasificados++;
+      if (clasificados === 6) {
+        setMensaje('🎉 ¡Excelente! Clasificaste las tres familias. Ahora ya puedes sumar: solo se combinan miembros de la misma casa.', 'ok');
+        document.getElementById('terminoElegido').textContent = '¡Familias completas!';
+        document.getElementById('opcionesCasa').style.visibility = 'hidden';
+      } else {
+        setMensaje('✔ ¡Correcto! ' + fichaActiva.textContent + ' vive en la ' + nombresCasa[casa] + '.', 'ok');
+        document.getElementById('terminoElegido').textContent = 'Elige otro término 👇';
+        document.getElementById('opcionesCasa').style.visibility = 'hidden';
+      }
+      fichaActiva = null;
+    } else {
+      setMensaje('✖ Esa no es su casa. Observa la variable y el exponente del término e inténtalo de nuevo.', 'error');
+    }
+  }
+  function setMensaje(texto, tipo){
+    var m = document.getElementById('mensajeFamilia');
+    m.textContent = texto;
+    m.className = 'mensaje' + (tipo ? ' ' + tipo : '');
+  }
+
+  // ---------- Slide 4: vocabulario ----------
+  function voltear(card){
+    card.classList.toggle('abierta');
+  }
+
+  // ---------- Slides 5 y 6: pasos ----------
+  var pasoSuma = 0;
+  function siguientePasoSuma(){
+    pasoSuma++;
+    var el = document.getElementById('suma-p' + pasoSuma);
+    if (el) el.classList.add('visible');
+    if (pasoSuma >= 4) {
+      var b = document.getElementById('btnSuma');
+      b.textContent = '¡Suma completa! ✔';
+      b.disabled = true;
+      b.style.opacity = '.55';
+      b.style.cursor = 'default';
+    }
+  }
+  var pasoResta = 0;
+  function siguientePasoResta(){
+    pasoResta++;
+    var el = document.getElementById('resta-p' + pasoResta);
+    if (el) el.classList.add('visible');
+    if (pasoResta >= 3) {
+      var b = document.getElementById('btnResta');
+      b.textContent = '¡Resta completa! ✔';
+      b.disabled = true;
+      b.style.opacity = '.55';
+      b.style.cursor = 'default';
+    }
+  }
+
+  // ---------- Slide 7: quiz ----------
+  function responder(btn, esCorrecta, retro){
+    var grupo = btn.parentElement;
+    if (grupo.getAttribute('data-resuelta') === 'si') return;
+    var feedback = grupo.parentElement.querySelector('.quiz-feedback');
+    if (esCorrecta) {
+      btn.classList.add('correcta');
+      grupo.setAttribute('data-resuelta', 'si');
+      feedback.textContent = retro;
+      feedback.className = 'quiz-feedback ok';
+    } else {
+      btn.classList.add('incorrecta');
+      feedback.textContent = retro + ' Inténtalo otra vez.';
+      feedback.className = 'quiz-feedback error';
+      setTimeout(function(){ btn.classList.remove('incorrecta'); }, 900);
+    }
+  }
+</script>
+</body>
+</html>
